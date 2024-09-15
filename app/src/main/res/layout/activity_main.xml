@@ -7,43 +7,78 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <EditText
-        android:id="@+id/edtA"
+    <GridLayout
+        android:id="@+id/gridLayout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="76dp"
-        android:ems="10"
-        android:hint="Enter A"
-        android:inputType="text"
+        android:layout_marginTop="252dp"
+        android:columnCount="2"
+        android:foregroundGravity="center"
+        android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent">
 
-    <EditText
-        android:id="@+id/edtB"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="52dp"
-        android:ems="10"
-        android:hint="Enter B"
-        android:inputType="text"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/edtA" />
+        <TextView
+            android:id="@+id/txtEnterA"
+            android:layout_width="92dp"
+            android:layout_height="43dp"
+            android:layout_row="0"
+            android:layout_column="0"
+            android:gravity="center"
+            android:text="Enter A: "
+            android:textAlignment="center" />
+
+        <EditText
+            android:id="@+id/edtA"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="Enter A"
+            android:inputType="text" />
+
+        <TextView
+            android:id="@+id/txtEnterB"
+            android:layout_width="92dp"
+            android:layout_height="43dp"
+            android:gravity="center"
+            android:text="Enter B: "
+            android:textAlignment="center" />
+
+        <EditText
+            android:id="@+id/edtB"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="Enter B"
+            android:inputType="text" />
+
+        <TextView
+            android:id="@+id/txtResult"
+            android:layout_width="92dp"
+            android:layout_height="43dp"
+            android:gravity="center"
+            android:text="Result:"
+            android:textAlignment="center" />
+
+        <TextView
+            android:id="@+id/txtResultValue"
+            android:layout_width="206dp"
+            android:layout_height="42dp"
+            android:gravity="center"
+            android:text="0" />
+    </GridLayout>
 
     <Button
         android:id="@+id/btnCal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="92dp"
         android:text="Calculate"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/edtB"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintTop_toBottomOf="@+id/gridLayout"
+        app:layout_constraintVertical_bias="0.2" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

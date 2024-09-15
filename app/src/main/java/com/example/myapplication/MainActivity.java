@@ -6,9 +6,10 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
@@ -18,9 +19,8 @@ public class MainActivity extends AppCompatActivity {
 
      EditText edtA;
      EditText edtB;
-     TextView txtResult;
+     TextView txtResultValue;
      Button btnCal;
-     Button btnMoveToSecondView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,26 +36,29 @@ public class MainActivity extends AppCompatActivity {
         edtA = (EditText) findViewById(R.id.edtA);
         edtB = (EditText) findViewById(R.id.edtB);
         btnCal = (Button) findViewById(R.id.btnCal);
+        txtResultValue = (TextView) findViewById(R.id.txtResultValue);
+
+        ActivityResultLauncher<Intent> startActivityIntent = registerForActivityResult(
+                new ActivityResultContracts.StartActivityForResult(),
+                result -> {
+                    if(result.getResultCode() == RESULT_OK) {
+                        Intent intent = result.getData();
+                        double rs = intent.getDoubleExtra("rs", 0);
+                        txtResultValue.setText("" + rs);
+                    }
+                }
+        );
+
         btnCal.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Bundle b = new Bundle();
+                Intent i = new Intent(MainActivity.this, MainActivity2.class);
                 double num1 = Double.parseDouble(edtA.getText().toString());
                 double num2 = Double.parseDouble(edtB.getText().toString());
-                b.putDouble("soa", num1);
-                b.putDouble("sob", num2);
-                Intent i = new Intent(MainActivity.this, MainActivity2.class);
-                i.putExtra("rs", b);
-                startActivity(i);
+                i.putExtra("soa", num1);
+                i.putExtra("sob", num2);
+                startActivityIntent.launch(i);
             }
         });
-    }
-
-
-
-    public double sum() {
-        double num1 = Double.parseDouble(edtA.getText().toString());
-        double num2 = Double.parseDouble(edtB.getText().toString());
-        return num1 + num2;
     }
 }

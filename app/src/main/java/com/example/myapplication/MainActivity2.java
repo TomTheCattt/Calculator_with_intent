@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -14,8 +15,13 @@ import androidx.core.view.WindowInsetsCompat;
 
 public class MainActivity2 extends AppCompatActivity {
 
-    Button btnBackToMainView;
-    TextView txtRs;
+    Button btnPlus;
+    Button btnMinus;
+    Button btnMulti;
+    Button btnDivide;
+    TextView txtNumA;
+    TextView txtNumB;
+    Intent i;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,24 +34,76 @@ public class MainActivity2 extends AppCompatActivity {
             return insets;
         });
 
-        txtRs = (TextView) findViewById(R.id.txtResult);
-        btnBackToMainView = (Button) findViewById(R.id.backToMain);
+        txtNumA = (TextView) findViewById(R.id.txtNumA);
+        txtNumB = (TextView) findViewById(R.id.txtNumB);
+        btnPlus = (Button) findViewById(R.id.btnPlus);
+        btnMinus = (Button) findViewById(R.id.btnMinus);
+        btnMulti = (Button) findViewById(R.id.btnMulti);
+        btnDivide = (Button) findViewById(R.id.btnDivide);
 
-        Intent i = getIntent();
-        Bundle b = i.getBundleExtra("rs");
-        double num1 = b.getDouble("soa");
-        double num2 = b.getDouble("sob");
-        double rs = num1 + num2;
-        txtRs.setText(rs+"");
+        i = getIntent();
+        double num1 = i.getDoubleExtra("soa",0);
+        double num2 = i.getDoubleExtra("sob",0);
 
-        btnBackToMainView.setOnClickListener(new View.OnClickListener() {
+        txtNumA.setText("Number A: "+num1);
+        txtNumB.setText("Number B: "+num2);
+
+        btnPlus.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(MainActivity2.this, MainActivity.class);
-                startActivity(i);
+                Intent intent = new Intent(MainActivity2.this, MainActivity.class);
+                intent.putExtra("rs", doPlus(num1, num2));
+                setResult(RESULT_OK, intent);
+                finish();
+            }
+        });
+        btnMinus.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity2.this, MainActivity.class);
+                intent.putExtra("rs", doMinus(num1, num2));
+                setResult(RESULT_OK, intent);
+                finish();
+            }
+        });
+        btnMulti.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity2.this, MainActivity.class);
+                intent.putExtra("rs", doMulti(num1, num2));
+                setResult(RESULT_OK, intent);
+                finish();
+            }
+        });
+        btnDivide.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity2.this, MainActivity.class);
+                intent.putExtra("rs", doDivide(num1, num2));
+                setResult(RESULT_OK, intent);
+                finish();
             }
         });
     }
 
+    private double doPlus(double num1, double num2) {
+        return num1 + num2;
+    };
 
+    private double doMinus(double num1, double num2) {
+        return num1 - num2;
+    };
+
+    private double doMulti(double num1, double num2) {
+        return num1 * num2;
+    }
+
+    private double doDivide(double num1, double num2) {
+        if (num2 == 0) {
+            // You can either return a special value or throw an exception
+            Toast.makeText(MainActivity2.this, "Cannot divide by zero", Toast.LENGTH_SHORT).show();
+            return 0; // Or you can return any value you'd prefer for this case
+        }
+        return num1 / num2;
+    }
 }
